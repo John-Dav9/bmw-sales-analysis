@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SalesController } from './controller/sales/sales.controller';
-import { SalesService } from './services/sales/sales.service';
 import { SalesModule } from './modules/sales/sales.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DimModel } from './entities/dim_model.entity';
@@ -13,35 +11,32 @@ import { DimYear } from './entities/dim_year.entity';
 import { FactSales } from './entities/fact_sales.entity';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersAdminController } from './users/users.admin.controller';
-
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-
-      type: 'mssql',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT) || 1433,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      options: { encrypt: process.env.DB_ENCRYPT === 'true', trustServerCertificate: true },
+      type: 'sqlite',
+      // Fichier DB (local + Render)
+      database: process.env.DB_NAME || 'bmw-sales.db',
       entities: [
-        DimModel, 
+        DimModel,
         DimRegion,
-        DimColor, 
-        DimYear, 
-        FactSales
+        DimColor,
+        DimYear,
+        FactSales,
       ],
       autoLoadEntities: true,
-      synchronize: false, // IMPORTANT: laisser false en prod
-      logging: false
+      // Pour un projet portfolio, on peut laisser true
+      // pour générer les tables automatiquement
+      synchronize: true,
+      logging: false,
     }),
-    SalesModule,  UsersModule, AuthModule,
+    SalesModule,
+    UsersModule,
+    AuthModule,
   ],
-    controllers: [AppController],
-    providers: [AppService],
-  })
-  export class AppModule {}
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
