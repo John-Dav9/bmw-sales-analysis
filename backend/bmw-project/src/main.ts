@@ -10,7 +10,11 @@ async function bootstrap() {
 
   // ✅ Enable CORS for your Angular app
   app.enableCors({
-    origin: 'http://localhost:4200', // your Angular app's URL
+    origin: [
+      'http://localhost:4200',
+      'https://john-dav9.github.io',
+      'https://john-dav9.github.io/bmw-sales-analysis'
+    ],
     credentials: true,               // allow cookies/auth headers if needed
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Accept, Authorization',
