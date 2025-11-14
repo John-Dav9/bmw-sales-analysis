@@ -1,0 +1,124 @@
+
+
+
+.section { margin-bottom: 24px; }
+
+.hero {
+  background: linear-gradient(135deg, #eef2ff 0%, #ffffff 60%);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.hero-text h1 { margin: 0 0 8px; font-weight: 700; }
+.hero-text p  { margin: 0; opacity: .85; }
+
+mat-card-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #1A237E;
+  margin: 8px 0 10px;
+  letter-spacing: .3px;
+}
+
+.stack mat-chip {
+  margin: 4px;
+}
+
+.arch {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.arch .block { background: #fafafa; border-radius: 12px; padding: 12px 16px; }
+.arch .diagram {
+  background: #fff; border-radius: 12px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px;
+}
+.note { font-size: .92rem; opacity: .8; margin-top: 6px; }
+
+.list { margin: 0; padding-left: 18px; }
+
+.deliver {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.deliver .item {
+  display: flex; align-items: center; gap: 8px;
+  background: #fafafa; border-radius: 12px; padding: 10px 12px;
+}
+
+.cta {
+  display: flex; gap: 12px; justify-content: center; margin: 12px 0 24px;
+}
+
+
+.docs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.doc-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 180px;
+  align-items: center;
+  gap: 12px;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.doc-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doc-status {
+  display: flex;
+  justify-content: center;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.available {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #C8E6C9;
+}
+
+.badge.missing {
+  background: #FFEBEE;
+  color: #C62828;
+  border: 1px solid #FFCDD2;
+}
+
+.doc-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: .85;
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .doc-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .doc-actions { justify-content: flex-start; }
+}

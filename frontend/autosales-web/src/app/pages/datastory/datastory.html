@@ -1,0 +1,112 @@
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Auto Sales Analytics — Data Story</h1>
+    <p>Des données brutes aux décisions : KPIs, tendances, et leviers business.</p>
+    <div class="hero-actions">
+      <a mat-raised-button color="primary" routerLink="/">Voir le Dashboard</a>
+      <a mat-stroked-button color="primary" routerLink="/methodo">Méthodologie</a>
+    </div>
+  </div>
+</section>
+
+<!-- Résumé exécutif -->
+<mat-card class="section">
+  <mat-card-title>Résumé exécutif</mat-card-title>
+  <mat-card-content>
+    <div class="chips" *ngIf="kpi">
+      <mat-chip-set>
+        <mat-chip><mat-icon>attach_money</mat-icon> <strong>{{kpi.revenue | number:'1.0-0'}}</strong> USD</mat-chip>
+        <mat-chip><mat-icon>directions_car</mat-icon> <strong>{{kpi.units | number}}</strong> unités</mat-chip>
+        <mat-chip><mat-icon>trending_up</mat-icon> Prix moyen <strong>{{kpi.avgPrice | number:'1.0-0'}}</strong> USD</mat-chip>
+      </mat-chip-set>
+    </div>
+
+    <div class="summary-grid" *ngIf="topModels.length">
+      <div class="summary-item">
+        <h3>Top modèles</h3>
+        <ol>
+          <li *ngFor="let m of topModels">{{m.make}} {{m.model}} — {{m.units | number}} u</li>
+        </ol>
+      </div>
+      <div class="summary-item">
+        <h3>Tendances récentes</h3>
+        <ul class="timeline">
+          <li *ngFor="let t of trendLast5">
+            <span class="year">{{t.year}}</span>
+            <span class="value">{{t.units | number}} u · {{t.avg_price | number:'1.0-0'}} $</span>
+          </li>
+        </ul>
+      </div>
+      <div class="summary-item">
+        <h3>Insights clés</h3>
+        <ul>
+          <li *ngFor="let q of quotes"><mat-icon>{{q.icon}}</mat-icon> {{q.text}}</li>
+        </ul>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- ❶ Timeline interactive (Stepper) -->
+<mat-card class="section">
+  <mat-card-title>De la donnée à l’insight</mat-card-title>
+  <mat-card-content>
+    <mat-horizontal-stepper>
+      <mat-step *ngFor="let s of steps; let i = index" [completed]="true">
+        <ng-template matStepLabel>{{i+1}}. {{s.title}}</ng-template>
+        <p>{{s.desc}}</p>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>
+
+<!-- ❷ Bandeau Avant / Après -->
+<mat-card class="section">
+  <mat-card-title>Avant / Après</mat-card-title>
+  <mat-card-content>
+    <div class="before-after">
+      <div class="col">
+        <h4><mat-icon color="warn">history</mat-icon> Avant</h4>
+        <ul><li *ngFor="let b of beforeAfter">{{b.before}}</li></ul>
+      </div>
+      <div class="col arrow">
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+      <div class="col">
+        <h4><mat-icon color="primary">bolt</mat-icon> Après</h4>
+        <ul><li *ngFor="let b of beforeAfter">{{b.after}}</li></ul>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- ❸ Citations / Insight cards -->
+<div class="cards section">
+  <mat-card class="insight" *ngFor="let q of quotes" matTooltip="Insight généré depuis l’analyse">
+    <mat-card-title><mat-icon>{{q.icon}}</mat-icon> Insight</mat-card-title>
+    <mat-card-content><p>{{q.text}}</p></mat-card-content>
+  </mat-card>
+</div>
+
+<!-- ❹ CTA Téléchargements -->
+<mat-card class="section">
+  <mat-card-title>Livrables</mat-card-title>
+  <mat-card-content>
+    <div class="cta">
+      <a *ngFor="let c of ctas" mat-stroked-button color="primary" [href]="c.href" download>
+        <mat-icon>{{c.icon}}</mat-icon> {{c.label}}
+      </a>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- (Option) Power BI -->
+<mat-card class="section" *ngIf="powerBiUrl">
+  <mat-card-title>Rapport interactif (Power BI)</mat-card-title>
+  <mat-card-content>
+    <div class="embed-wrap">
+      <iframe [src]="powerBiUrl" title="Power BI" frameborder="0" allowfullscreen="true"></iframe>
+    </div>
+  </mat-card-content>
+</mat-card>

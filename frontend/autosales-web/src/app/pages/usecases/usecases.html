@@ -1,0 +1,269 @@
+<section class="hero">
+  <div class="hero-text">
+    <h1>Cas d’usage — What-if Prix ↔ Volume</h1>
+    <p>Simule l’impact d’un changement de prix, en tenant compte d’une élasticité (par défaut −1.2).</p>
+  </div>
+</section>
+
+<!-- 1) BASELINE -->
+<mat-card class="section">
+  <mat-card-title>1) Choisir la base de calcul (baseline)</mat-card-title>
+  <mat-card-content>
+    <div class="filters">
+      <mat-form-field>
+        <mat-label>Année</mat-label>
+        <mat-select [(ngModel)]="year">
+          <mat-option [value]="undefined">Toutes</mat-option>
+          <mat-option *ngFor="let y of years" [value]="y">{{ y }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Région</mat-label>
+        <mat-select [(ngModel)]="region">
+          <mat-option [value]="undefined">Toutes</mat-option>
+          <mat-option *ngFor="let r of regions" [value]="r">{{ r }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Modèle</mat-label>
+        <mat-select [(ngModel)]="model">
+          <mat-option [value]="undefined">Tous</mat-option>
+          <mat-option *ngFor="let m of models" [value]="m">{{ m }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Astuce: côté TS, fais aussi loadMixBaseline() et loadRegionMixBaseline() ici si tu veux rafraîchir tout -->
+      <button mat-raised-button color="primary" (click)="loadBaseline()">Actualiser la baseline</button>
+    </div>
+
+    <div class="kpis" *ngIf="baseline">
+      <div class="kpi">
+        <div class="label">Units</div>
+        <div class="value">{{ baseline!.units | number }}</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Avg Price</div>
+        <div class="value">{{ baseline!.avgPrice | number:'1.0-0' }} USD</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Revenue</div>
+        <div class="value">{{ baseline!.revenue | number:'1.0-0' }} USD</div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- 2) SCÉNARIO PRIX / VOLUME -->
+<mat-card class="section">
+  <mat-card-title>2) Paramétrer le scénario prix ↔ volume</mat-card-title>
+  <mat-card-content>
+    <div class="scenario-grid">
+      <div class="control">
+        <label>Changement de prix (%)</label>
+        <div class="row">
+          <mat-slider min="-30" max="30" step="1" discrete [(ngModel)]="priceDeltaPct"></mat-slider>
+          <input matInput type="number" [(ngModel)]="priceDeltaPct" style="width:90px" />
+        </div>
+      </div>
+
+      <div class="control">
+        <label>Élasticité (ΔQ/Q ÷ ΔP/P)</label>
+        <div class="row">
+          <mat-slider min="-3" max="0" step="0.1" discrete [(ngModel)]="elasticity"></mat-slider>
+          <input matInput type="number" [(ngModel)]="elasticity" style="width:90px" />
+        </div>
+        <div class="hint">
+          Valeur typique voitures neuves : −1.0 à −1.5 (plus négatif ⇒ plus sensible au prix).
+        </div>
+      </div>
+
+      <div class="actions">
+        <button mat-stroked-button (click)="resetScenario()">Réinitialiser</button>
+        <button mat-raised-button color="primary" (click)="runScenario()">Simuler</button>
+      </div>
+    </div>
+
+    <mat-divider style="margin:12px 0;"></mat-divider>
+
+    <div class="charts" *ngIf="baseline && scenario">
+      <mat-card class="sub" style="height:280px;">
+        <mat-card-title>Units — Baseline vs Scénario</mat-card-title>
+        <mat-card-content style="height:200px;">
+          <canvas baseChart [type]="'bar'" [data]="unitsChart" [options]="barOptions"></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="sub" style="height:280px;">
+        <mat-card-title>Revenue — Baseline vs Scénario</mat-card-title>
+        <mat-card-content style="height:200px;">
+          <canvas baseChart [type]="'bar'" [data]="revenueChart" [options]="barOptions"></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="delta" *ngIf="baseline && scenario">
+      <div>
+        Δ Units : <strong>{{ (scenario!.units - baseline!.units) | number }}</strong>
+        (<span [class.pos]="scenario!.units>=baseline!.units" [class.neg]="scenario!.units<baseline!.units">
+          {{ ((scenario!.units - baseline!.units)/baseline!.units) | percent:'1.0-1' }}
+        </span>)
+      </div>
+      <div>
+        Δ Revenue : <strong>{{ (scenario!.revenue - baseline!.revenue) | number:'1.0-0' }} USD</strong>
+        (<span [class.pos]="scenario!.revenue>=baseline!.revenue" [class.neg]="scenario!.revenue<baseline!.revenue">
+          {{ ((scenario!.revenue - baseline!.revenue)/baseline!.revenue) | percent:'1.0-1' }}
+        </span>)
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- 3) MIX PRODUIT + PROMO -->
+<mat-card class="section">
+  <mat-card-title>3) Mix produit — réallocation des unités (+ promo)</mat-card-title>
+  <mat-card-content>
+    <p class="hint">
+      Transfère une partie des unités des autres modèles vers un <strong>modèle cible</strong> (Top 5 actuels),
+      et visualise l’impact sur les <em>units</em> et le <em>revenu</em>.
+    </p>
+
+    <div class="mix-grid">
+      <mat-form-field>
+        <mat-label>Modèle cible</mat-label>
+        <mat-select [(ngModel)]="mixTarget" (selectionChange)="runMixScenario()">
+          <mat-option *ngFor="let m of mixModels" [value]="m.label">{{ m.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="control">
+        <label>Transfert depuis les autres (%)</label>
+        <div class="row">
+          <mat-slider min="0" max="30" step="1" discrete [(ngModel)]="mixTransferPct" (valueChange)="runMixScenario()"></mat-slider>
+          <input matInput type="number" [(ngModel)]="mixTransferPct" (change)="runMixScenario()" style="width:90px" />
+        </div>
+        <div class="small-hint">Limité à 30% pour rester réaliste (portefeuille & court terme).</div>
+      </div>
+
+      <!-- Promo déplacée dans la grille pour rester alignée -->
+      <div class="control">
+        <label>Promo sur le modèle cible (%)</label>
+        <div class="row">
+          <mat-slider min="-50" max="0" step="1" discrete [(ngModel)]="promoPct" (valueChange)="runMixScenario()"></mat-slider>
+          <input matInput type="number" [(ngModel)]="promoPct" (change)="runMixScenario()" style="width:90px" />
+        </div>
+        <div class="small-hint">Ex : -5 = remise de 5% appliquée uniquement au modèle cible.</div>
+      </div>
+    </div>
+
+    <div class="kpis" *ngIf="mixModels.length">
+      <div class="kpi">
+        <div class="label">Revenu Baseline</div>
+        <div class="value">{{ mixBaselineRevenue | number:'1.0-0' }} USD</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Revenu Scénario</div>
+        <div class="value">{{ mixScenarioRevenue | number:'1.0-0' }} USD</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Δ Revenu</div>
+        <div class="value" [class.pos]="mixScenarioRevenue>=mixBaselineRevenue" [class.neg]="mixScenarioRevenue<mixBaselineRevenue">
+          {{ (mixScenarioRevenue - mixBaselineRevenue) | number:'1.0-0' }} USD
+          <span class="pct">
+            ({{ ((mixScenarioRevenue - mixBaselineRevenue) / (mixBaselineRevenue || 1)) | percent:'1.0-1' }})
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 320px; margin-top: 10px;" *ngIf="mixModels.length">
+      <canvas baseChart [type]="'bar'" [data]="mixChart" [options]="mixOptions"></canvas>
+    </div>
+
+    <p class="note">
+      Hypothèses : le prix moyen par modèle reste inchangé pour les autres modèles (mix pur sur les unités).
+      La <strong>promo</strong> ne s’applique que sur le <em>modèle cible</em>.
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<!-- 4) RÉALLOCATION RÉGIONALE -->
+<mat-card class="section">
+  <mat-card-title>4) Réallocation régionale</mat-card-title>
+  <mat-card-content>
+    <p class="hint">
+      Transfère <strong>X%</strong> des unités d’une <strong>région source</strong> vers une <strong>région cible</strong>
+      et observe l’impact sur le revenu (prix moyens régionaux constants).
+    </p>
+
+    <div class="region-grid" *ngIf="regionMix.length; else regionEmpty">
+      <mat-form-field>
+        <mat-label>Région source</mat-label>
+        <mat-select [(ngModel)]="regionSource" (selectionChange)="runRegionMixScenario()">
+          <mat-option *ngFor="let r of regionMix" [value]="r.region">{{ r.region }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Région cible</mat-label>
+        <mat-select [(ngModel)]="regionTarget" (selectionChange)="runRegionMixScenario()">
+          <mat-option *ngFor="let r of regionMix" [value]="r.region">{{ r.region }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="control">
+        <label>Transfert depuis la source (%)</label>
+        <div class="row">
+          <mat-slider min="0" max="50" step="1" discrete [(ngModel)]="regionTransferPct" (valueChange)="runRegionMixScenario()"></mat-slider>
+          <input matInput type="number" [(ngModel)]="regionTransferPct" (change)="runRegionMixScenario()" style="width:90px" />
+        </div>
+      </div>
+    </div>
+
+    <ng-template #regionEmpty>
+      <p>Aucune donnée trouvée pour construire la baseline régionale.</p>
+    </ng-template>
+
+    <div class="kpis" *ngIf="regionMix.length">
+      <div class="kpi">
+        <div class="label">Revenu Baseline</div>
+        <div class="value">{{ regionBaselineRevenue | number:'1.0-0' }} USD</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Revenu Scénario</div>
+        <div class="value">{{ regionScenarioRevenue | number:'1.0-0' }} USD</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Δ Revenu</div>
+        <div class="value" [class.pos]="regionScenarioRevenue>=regionBaselineRevenue" [class.neg]="regionScenarioRevenue<regionBaselineRevenue">
+          {{ (regionScenarioRevenue - regionBaselineRevenue) | number:'1.0-0' }} USD
+          <span class="pct">
+            ({{ ((regionScenarioRevenue - regionBaselineRevenue)/(regionBaselineRevenue||1)) | percent:'1.0-1' }})
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 320px; margin-top: 10px;" *ngIf="regionMix.length">
+      <canvas baseChart [type]="'bar'" [data]="regionChart" [options]="regionOptions"></canvas>
+    </div>
+
+    <p class="note">
+      Hypothèses : prix moyens régionaux constants (pas de cannibalisation ni de contrainte d’offre).  
+      Pour affiner, on peut connecter une élasticité **par région** et/ou appliquer un **prix promo** en région cible.
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<!-- NOTE GÉNÉRALE -->
+<mat-card class="section note-card">
+  <mat-card-title>Interprétation & limites</mat-card-title>
+  <mat-card-content>
+    <ul>
+      <li>Le calcul utilise une élasticité <strong>constante</strong> (linéaire). En pratique, elle peut varier par segment, canal, période.</li>
+      <li>En filtrant par <strong>modèle</strong> ou <strong>région</strong>, l’élasticité pertinente peut différer de la moyenne.</li>
+      <!-- <li>Autres scénarios possibles : <em>mix produit avancé</em>, <em>réallocation multi-régions</em>, <em>promo temporaire</em>.</li> -->
+    </ul>
+  </mat-card-content>
+</mat-card>

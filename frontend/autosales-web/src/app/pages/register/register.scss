@@ -1,0 +1,29 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 92vh;
+  background: #f8fafc;
+}
+
+.auth-card {
+  width: 380px;
+  padding: 20px;
+}
+
+form.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.switch {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 14px;
+}
+.switch a {
+  color: #1a237e;
+  font-weight: 500;
+  text-decoration: none;
+}

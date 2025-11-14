@@ -1,0 +1,42 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="brand">
+      <span class="logo">🚗</span>
+      <div class="text">
+        <div class="title">Auto Sales Analytics</div>
+        <div class="subtitle">Angular · NestJS · SQL Server · Power BI</div>
+      </div>
+    </div>
+
+    <nav class="links">
+      <a routerLink="/" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/insights" routerLinkActive="active">Insights</a>
+      <a routerLink="/data-story" routerLinkActive="active">Data Story</a>
+      <a routerLink="/methodo" routerLinkActive="active">Méthodo</a>
+      <a routerLink="/cas-usage" routerLinkActive="active">Cas d’usage</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+    </nav>
+
+    <div class="socials">
+      <a href="mailto:you@example.com" aria-label="Email" mat-icon-button>
+        <mat-icon>mail</mat-icon>
+      </a>
+      <a href="https://github.com/ton-github" target="_blank" rel="noopener" aria-label="GitHub" mat-icon-button>
+        <mat-icon>hub</mat-icon>
+      </a>
+      <a href="https://www.linkedin.com/in/ton-linkedin" target="_blank" rel="noopener" aria-label="LinkedIn" mat-icon-button>
+        <mat-icon>public</mat-icon>
+      </a>
+      <button mat-stroked-button class="to-top" (click)="toTop()">
+        <mat-icon>arrow_upward</mat-icon>
+        Haut de page
+      </button>
+    </div>
+  </div>
+
+  <div class="legal">
+    <span>© {{year}} • Portfolio project</span>
+    <span class="sep">•</span>
+    <span>Made with ♥ using Angular</span>
+  </div>
+</footer>

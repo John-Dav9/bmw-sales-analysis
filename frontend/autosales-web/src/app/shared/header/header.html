@@ -1,0 +1,41 @@
+<header class="topbar">
+  <div class="wrap">
+    <!-- 🏠 Logo -->
+    <a class="brand" routerLink="/" (click)="closeMenu()">
+      <span class="logo">🚗</span>
+      <span class="title">Auto Sales Analytics</span>
+    </a>
+
+    <!-- 🧭 Navigation -->
+    <nav class="nav" [class.open]="menuOpen">
+      <a *ngIf="!auth.isLoggedIn()" mat-stroked-button color="accent" routerLink="/register" (click)="closeMenu()">S’inscrire</a>
+      <a *ngIf="auth.isLoggedIn()" routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
+      <a *ngIf="auth.isLoggedIn()" routerLink="/insights" routerLinkActive="active" (click)="closeMenu()">Insights</a>
+      <a *ngIf="auth.isLoggedIn()" routerLink="/data-story" routerLinkActive="active" (click)="closeMenu()">Data Story</a>
+      <a *ngIf="auth.isLoggedIn()" routerLink="/methodo" routerLinkActive="active" (click)="closeMenu()">Méthodo</a>
+      <a *ngIf="auth.isLoggedIn()" routerLink="/use-cases" routerLinkActive="active" (click)="closeMenu()">Cas d’usage</a>
+
+      <!-- 👑 Lien Admin visible seulement si admin -->
+      <a *ngIf="auth.isAdmin()" routerLink="/explore" routerLinkActive="active" (click)="closeMenu()">Explore</a>
+      <a *ngIf="auth.isAdmin()" routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
+      <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
+
+      <!-- 🔐 Auth Buttons -->
+      <ng-container *ngIf="!auth.isLoggedIn(); else loggedIn">
+        <a mat-stroked-button color="accent" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a>
+      </ng-container>
+
+      <ng-template #loggedIn>
+        <button mat-stroked-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </ng-template>
+    </nav>
+
+    <!-- 🍔 Burger (mobile) -->
+    <button mat-icon-button class="burger" (click)="toggleMenu()" aria-label="Menu">
+      <mat-icon>{{ menuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  </div>
+</header>

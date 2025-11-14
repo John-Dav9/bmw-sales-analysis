@@ -1,0 +1,64 @@
+Dataset,Field,Type,Nullable,Unit,Description,Example,Allowed_Values,PK,FK,Notes
+BMW_Sales,model_id,string,No,,Identifiant modèle interne/normalisé (stable dans le temps),BMW_3Series,,Yes,,Clé technique de jointure
+BMW_Sales,brand,string,No,,Marque (BMW),BMW,BMW,No,,Constante "BMW"
+BMW_Sales,model_name,string,Yes,,Nom marketing du modèle,3 Series,,No,,Optionnel si seul model_id est utilisé
+BMW_Sales,segment,string,Yes,,Segment véhicule (ex: Compact, SUV, Premium),SUV,"Compact;SUV;Executive;Luxury;EV",No,,Normaliser via table de référence si possible
+BMW_Sales,body_type,string,Yes,,Carrosserie,Saloon,"Saloon;Hatchback;Coupe;SUV",No,,Optionnel
+BMW_Sales,year,int,No,YYYY,Année calendaire de vente,2023,,Yes,,Avec model_id (+region) définit le grain
+BMW_Sales,region,string,No,,Région UK (NUTS1/administrative),London,,Yes,,Doit correspondre au référentiel régions
+BMW_Sales,units,int,No,nb,Unités vendues BMW,1250,>=0,No,,Mesure principale
+BMW_Sales,revenue_gbp,float,Yes,£,Chiffre d’affaires estimé (si dispo),4210000,>=0,No,,Optionnel
+BMW_Sales,avg_price_gbp,float,Yes,£,Prix moyen de transaction BMW (si dispo),34000,>=0,No,,Peut être dérivé = revenue/units
+BMW_Sales,created_at,datetime,Yes,ISO,Horodatage d’ingestion,2025-10-08T12:00:00Z,,No,,Technique
+
+Market_UK,brand,string,No,,Marque constructeur,BMW,"BMW;Audi;Mercedes;VW;Toyota;…",Yes,,Clé 1/3 si pas de model_id commun
+Market_UK,model_id,string,Yes,,Identifiant modèle côté marché (mappé au besoin),BMW_3Series,,Yes,,À mapper vers BMW_Sales.model_id
+Market_UK,model_name,string,Yes,,Nom modèle marché,3 Series,,No,,Optionnel
+Market_UK,segment,string,Yes,,Segment véhicule,SUV,"Compact;SUV;Executive;Luxury;EV",No,,Aligner sur le référentiel BMW
+Market_UK,year,int,No,YYYY,Année calendaire de référence,2023,,Yes,,Clé temporelle
+Market_UK,region,string,No,,Région UK,London,,Yes,,Aligner avec BMW_Sales.region
+Market_UK,units_total,int,Yes,nb,Unités totales vendues (toutes marques) sur le grain,98000,>=0,No,,Pour ratio et part
+Market_UK,market_share_pct,float,Yes,%,Part de marché du modèle/marque sur le grain,7.8,0–100,No,,Peut être calculée = units_brand/units_total
+Market_UK,avg_price_gbp,float,Yes,£,Prix moyen de marché sur le grain,32000,>=0,No,,Pour analyse de positionnement prix
+Market_UK,ev_flag,string,Yes,,Indicateur véhicule électrique,EV,"EV;ICE;PHEV",No,,Optionnel
+Market_UK,created_at,datetime,Yes,ISO,Horodatage d’ingestion,2025-10-08T12:00:00Z,,No,,Technique
+
+## DICTIONNAIRE MIS A jointure
+
+Dataset,Field,SQLServer_Type,Nullable,Unit,Description,Example,PK,FK,Notes
+DimBrand,brand_id,INT,No,,Identifiant technique marque (surrogate key),1,Yes,,IDENTITY(1,1)
+DimBrand,brand_name,NVARCHAR(100),No,,Nom de la marque,BMW,No,,
+
+DimSegment,segment_id,INT,No,,Identifiant technique segment,3,Yes,,IDENTITY(1,1)
+DimSegment,segment_name,NVARCHAR(50),No,,Nom du segment,SUV,No,,
+DimSegment,segment_group,NVARCHAR(50),Yes,,Groupe/cluster de segment,Premium,No,,
+
+DimRegion,region_id,INT,No,,Identifiant technique région,10,Yes,,IDENTITY(1,1)
+DimRegion,region_code,NVARCHAR(10),Yes,,Code court région,LDN,No,,
+DimRegion,region_name,NVARCHAR(100),No,,Nom de la région,London,No,,
+DimRegion,nuts1,NVARCHAR(50),Yes,,Code NUTS1 UK,UKI,No,,
+
+DimDate,date_id,INT,No,,Identifiant temporel (année),2023,Yes,,= year
+DimDate,year,SMALLINT,No,YYYY,Année civile,2023,No,,
+DimDate,fiscal_year,SMALLINT,Yes,,Année fiscale si différente,2023,No,,
+
+DimModel,model_id,INT,No,,Identifiant technique modèle,101,Yes,,IDENTITY(1,1)
+DimModel,model_code,NVARCHAR(50),Yes,,Code interne modèle,BMW_3Series,No,,
+DimModel,model_name,NVARCHAR(100),No,,Nom marketing du modèle,3 Series,No,,
+DimModel,brand_id,INT,No,,FK vers DimBrand,1,No,Yes,
+DimModel,segment_id,INT,Yes,,FK vers DimSegment,3,No,Yes,
+DimModel,body_type,NVARCHAR(50),Yes,,Carrosserie,Saloon,No,,
+
+FactSales_BMW,model_id,INT,No,,FK vers DimModel,101,Yes(FK),Yes,PK part (1/3)
+FactSales_BMW,date_id,INT,No,YYYY,FK vers DimDate,2023,Yes(FK),Yes,PK part (2/3)
+FactSales_BMW,region_id,INT,No,,FK vers DimRegion,10,Yes(FK),Yes,PK part (3/3)
+FactSales_BMW,units,INT,No,nb,Unités vendues BMW,1250,No,,
+FactSales_BMW,revenue_gbp,DECIMAL(18,2),Yes,£,Chiffre d’affaires estimé,4210000.00,No,,
+FactSales_BMW,avg_price_gbp,DECIMAL(18,2),Yes,£,Prix moyen BMW (peut être calculé),3368.00,No,,
+
+FactMarket_UK,model_id,INT,No,,FK vers DimModel,101,Yes(FK),Yes,PK part (1/3)
+FactMarket_UK,date_id,INT,No,YYYY,FK vers DimDate,2023,Yes(FK),Yes,PK part (2/3)
+FactMarket_UK,region_id,INT,No,,FK vers DimRegion,10,Yes(FK),Yes,PK part (3/3)
+FactMarket_UK,units_total,INT,Yes,nb,Unités totales (toutes marques),98000,No,,
+FactMarket_UK,market_share_pct,DECIMAL(5,2),Yes,%,Part de marché sur le grain,7.80,No,,"0–100%"
+FactMarket_UK,avg_price_market_gbp,DECIMAL(18,2),Yes,£,Prix moyen marché,32000.00,No,,

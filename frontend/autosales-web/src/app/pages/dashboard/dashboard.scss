@@ -1,0 +1,66 @@
+
+
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.kpi {
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  .label { opacity: 0.7; font-size: 13px; }
+  .value { font-size: 22px; font-weight: 600; margin-top: 6px; }
+}
+.chart-container {
+  margin-top: 32px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+
+// Uniformiser les titres des cartes
+mat-card-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #1A237E; /* ton bleu primaire Touch Point */
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+}
+
+// Améliorer les cartes du dashboard
+mat-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #ffffff;
+  padding: 10px;
+}
+
+mat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+// Harmoniser les zones de graphiques
+mat-card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+

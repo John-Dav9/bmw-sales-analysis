@@ -1,0 +1,7 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.full { grid-column: 1 / -1; }
+.toggle { display: flex; align-items: center; padding: 8px 0; }

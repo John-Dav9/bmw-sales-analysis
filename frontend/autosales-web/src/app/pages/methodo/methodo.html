@@ -1,0 +1,158 @@
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Méthodologie</h1>
+    <p>De la donnée brute au produit data : pipeline, modèle, qualité, API et visualisation.</p>
+  </div>
+</section>
+
+<!-- Stack / Outils -->
+<mat-card class="section">
+  <mat-card-title>Stack & Outils</mat-card-title>
+  <mat-card-content>
+    <mat-chip-set class="stack">
+      <mat-chip *ngFor="let s of stack">
+        <mat-icon>{{s.icon}}</mat-icon>
+        {{s.label}}
+      </mat-chip>
+    </mat-chip-set>
+  </mat-card-content>
+</mat-card>
+
+<!-- Pipeline (Stepper) -->
+<mat-card class="section">
+  <mat-card-title>Pipeline projet</mat-card-title>
+  <mat-card-content>
+    <mat-horizontal-stepper>
+      <mat-step *ngFor="let s of steps; let i = index" [completed]="true">
+        <ng-template matStepLabel>{{i+1}}. {{s.title}}</ng-template>
+        <p>{{s.desc}}</p>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>
+
+<!-- Architecture & Modèle -->
+<mat-card class="section">
+  <mat-card-title>Architecture & Modèle de données</mat-card-title>
+  <mat-card-content>
+    <div class="arch">
+      <div class="block">
+        <h3>Architecture</h3>
+        <ul>
+          <li>Sources CSV Kaggle → ETL (Python/SQL) → SQL Server</li>
+          <li>API NestJS (TypeORM) → Angular (Material + Chart.js)</li>
+          <li>Power BI en option pour la data viz complémentaire</li>
+          <li>CI/CD simple via GitHub (portfolio)</li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3>Modèle en étoile</h3>
+        <div class="diagram">
+          <pre>
+          dim_year     dim_model     dim_region     dim_color
+             │             │             │             │
+             └─────────────┴─────────────┴─────────────┘
+                        fact_sales
+          (price_usd, sales_volume, fuel_type, transmission, engine_size_l)
+          </pre>
+        </div>
+        <p class="note">Index non cluster + columnstore sur fact_sales pour accélérer les agrégations.</p>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Qualité des données (Accordion) -->
+<mat-card class="section">
+  <mat-card-title>Qualité des données (Data Quality)</mat-card-title>
+  <mat-card-content>
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let g of dq">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{g.title}}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul class="list">
+          <li *ngFor="let it of g.items">{{it}}</li>
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
+
+<!-- Bonnes pratiques API -->
+<mat-card class="section">
+  <mat-card-title>API & performances</mat-card-title>
+  <mat-card-content>
+    <ul class="list">
+      <li>Endpoints agrégés : <code>/sales/kpi</code>, <code>/sales/insights/trend</code>, <code>/sales/insights/top-models</code>, etc.</li>
+      <li>Calculs pondérés: <em>avg price = SUM(price*volume)/SUM(volume)</em></li>
+      <li>Pagination & filtres: <code>limit/offset</code>, <code>year</code>, <code>region</code>, <code>model</code></li>
+      <li>CORS activé, sélectivité SQL (index), projections de colonnes uniquement</li>
+      <li>(Option) Cache applicatif & columnstore pour accélérer</li>
+    </ul>
+  </mat-card-content>
+</mat-card>
+
+<!-- Livrables -->
+<mat-card class="section">
+  <mat-card-title>Livrables</mat-card-title>
+  <mat-card-content>
+    <div class="deliver">
+      <div class="item" *ngFor="let d of deliverables">
+        <mat-icon>{{d.icon}}</mat-icon>
+        <span>{{d.label}}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- CTA -->
+<div class="cta">
+  <a mat-raised-button color="primary" routerLink="/data-story">
+    Voir la Data Story
+  </a>
+  <a mat-stroked-button color="primary" routerLink="/insights">
+    Explorer les Insights
+  </a>
+</div>
+
+<mat-card class="section">
+  <mat-card-title>Scripts & schémas (assets)</mat-card-title>
+  <mat-card-content>
+    <p>Place tes fichiers dans <code>src/assets/docs/</code> — la page détecte automatiquement leur présence.</p>
+
+    <div class="docs-list">
+      <div class="doc-row" *ngFor="let d of docs">
+        <div class="doc-label">
+          <mat-icon aria-hidden="true">description</mat-icon>
+          <span>{{ d.label }}</span>
+        </div>
+
+        <div class="doc-status">
+          <span class="badge" [class.available]="d.available" [class.missing]="!d.available">
+            {{ d.available ? 'Disponible' : 'Manquant' }}
+          </span>
+        </div>
+
+        <div class="doc-actions">
+          <button mat-stroked-button color="primary" (click)="openOrDownload(d)" [disabled]="!d.available">
+            Télécharger / Ouvrir
+          </button>
+        </div>
+      </div>
+
+      <!-- <div class="hint">
+        <mat-icon>info</mat-icon>
+        Exemples de chemins attendus :
+        <code>assets/docs/README.pdf</code>,
+        <code>assets/docs/ddl_sqlserver.sql</code>,
+        <code>assets/docs/auto-sales.pbix</code>…
+      </div> -->
+    </div>
+
+    <div *ngIf="loadingDocs" style="margin-top: 12px;">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </mat-card-content>
+</mat-card>

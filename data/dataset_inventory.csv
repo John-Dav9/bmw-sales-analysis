@@ -1,0 +1,5 @@
+Dataset_Name,Description,Source,Format,Volume,Update_Frequency,Primary_Keys,Grain,Reliability
+BMW_Sales,Ventes BMW par modèle,segment,CSV,25000 lignes/année,Annuel,Source interne BMW,,model_id;year;region,Modèle-Année-Région,5
+Market_UK,Marché automobile UK tous constructeurs,Office for National Statistics,CSV,120000 lignes/année,Annuel,model_id;year;region,Modèle-Année-Région,4
+Pricing_UK,Base prix catalogue UK par modèle,AutoTrader API,CSV,8000 lignes/année,Semi-annuel,model_id;year,Modèle-Année,4
+Demographics_UK,Données socio-éco régionales,ONS,CSV,6000 lignes/année,Annuel,region,Region,3

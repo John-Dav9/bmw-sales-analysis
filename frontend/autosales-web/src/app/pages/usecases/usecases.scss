@@ -1,0 +1,247 @@
+
+
+
+/* =========================================================
+ * 🌈 PALETTE & VARIABLES
+ * =======================================================*/
+:root {
+  --color-primary: #1A237E;         /* Bleu profond Touch Point */
+  --color-accent: #8BC34A;          /* Vert accent */
+  --color-bg: #F5F7FA;              /* Fond clair doux */
+  --color-card: #FFFFFF;            /* Fond des cartes */
+  --color-border: #E0E0E0;          /* Bordures légères */
+  --color-text: #333333;
+  --color-positive: #2E7D32;
+  --color-negative: #C62828;
+  --color-muted: #757575;
+}
+
+/* Mode sombre automatique */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #121212;
+    --color-card: #1E1E1E;
+    --color-border: #333;
+    --color-text: #EEEEEE;
+  }
+}
+
+/* =========================================================
+ * 🧩 GLOBAL LAYOUT
+ * =======================================================*/
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+/* =========================================================
+ * 🎯 HERO SECTION
+ * =======================================================*/
+.hero {
+  background: linear-gradient(135deg, #eef2ff 0%, #ffffff 60%);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  .hero-text {
+    h1 {
+      margin: 0 0 6px;
+      font-weight: 700;
+      color: var(--color-primary);
+      font-size: 1.6rem;
+    }
+    p {
+      margin: 0;
+      opacity: .85;
+      font-size: 1rem;
+    }
+  }
+}
+
+/* =========================================================
+ * 🪶 TITRES & CARTES
+ * =======================================================*/
+mat-card {
+  background: var(--color-card);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  }
+}
+
+mat-card-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin: 6px 0 10px;
+}
+
+/* =========================================================
+ * 🔍 FILTERS (BASELINE)
+ * =======================================================*/
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  align-items: end;
+
+  button {
+    margin-top: 4px;
+  }
+}
+
+/* =========================================================
+ * 💡 KPI TILES
+ * =======================================================*/
+.kpis {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.kpi {
+  background: var(--color-bg);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease;
+
+  &:hover { transform: scale(1.02); }
+
+  .label {
+    opacity: .75;
+    font-size: .9rem;
+    color: var(--color-muted);
+  }
+  .value {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 6px;
+  }
+  .value.pos { color: var(--color-positive); }
+  .value.neg { color: var(--color-negative); }
+  .pct { font-weight: 600; margin-left: 4px; }
+}
+
+/* =========================================================
+ * ⚙️ SCÉNARIO PRIX ↔ VOLUME
+ * =======================================================*/
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.control {
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hint {
+    font-size: .85rem;
+    opacity: .8;
+    margin-top: 6px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+
+  button {
+    min-width: 140px;
+  }
+}
+
+/* =========================================================
+ * 📊 CHARTS & COMPARAISONS
+ * =======================================================*/
+.charts {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+
+  .sub {
+    mat-card-title { font-size: 1rem; }
+  }
+}
+
+.delta {
+  margin-top: 14px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+
+  .pos { color: var(--color-positive); font-weight: 600; }
+  .neg { color: var(--color-negative); font-weight: 600; }
+}
+
+/* =========================================================
+ * 🧱 MIX PRODUIT (+ PROMO)
+ * =======================================================*/
+.mix-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.small-hint {
+  font-size: .85rem;
+  opacity: .8;
+  margin-top: 6px;
+}
+
+/* =========================================================
+ * 🌍 RÉALLOCATION RÉGIONALE
+ * =======================================================*/
+.region-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.hint {
+  font-size: .95rem;
+  opacity: .85;
+  margin-bottom: 8px;
+}
+
+/* =========================================================
+ * 🧾 NOTE / FOOTER CARD
+ * =======================================================*/
+.note-card {
+  ul {
+    margin: 0;
+    padding-left: 18px;
+    line-height: 1.6;
+  }
+  li::marker {
+    color: var(--color-primary);
+  }
+}

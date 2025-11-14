@@ -1,0 +1,57 @@
+<div class="auth-wrapper">
+  <mat-card class="auth-card">
+    <mat-card-title>Créer un compte</mat-card-title>
+    <mat-card-content>
+      <form (ngSubmit)="register()" #form="ngForm" class="form">
+        <mat-form-field appearance="outline">
+          <mat-label>Nom</mat-label>
+          <input matInput [(ngModel)]="name" name="name" required minlength="2" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Prénom</mat-label>
+          <input matInput [(ngModel)]="surname" name="surname" required minlength="2" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="email" name="email" type="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput [(ngModel)]="password" name="password" type="password" required minlength="6" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Confirmer le mot de passe</mat-label>
+          <input
+            matInput
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            required
+            minlength="6"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rôle</mat-label>
+          <mat-select [(ngModel)]="role" name="role" required>
+            <mat-option value="visitor">Visiteur</mat-option>
+            <mat-option value="admin">Admin</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
+          {{ loading ? 'Création...' : 'S’inscrire' }}
+        </button>
+      </form>
+
+      <p class="switch">
+        Déjà un compte ?
+        <a routerLink="/login">Se connecter</a>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

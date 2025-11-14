@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Modifier l'utilisateur</h2>
+
+<div mat-dialog-content class="form-grid">
+  <mat-form-field appearance="outline">
+    <mat-label>Nom</mat-label>
+    <input matInput [(ngModel)]="model.name" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Prénom</mat-label>
+    <input matInput [(ngModel)]="model.surname" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="model.email" type="email" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Rôle</mat-label>
+    <mat-select [(ngModel)]="model.role" required>
+      <mat-option value="visitor">Visitor</mat-option>
+      <mat-option value="admin">Admin</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="toggle">
+    <mat-slide-toggle [(ngModel)]="model.is_active">
+      {{ model.is_active ? 'Actif' : 'Inactif' }}
+    </mat-slide-toggle>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="save()">Enregistrer</button>
+</div>

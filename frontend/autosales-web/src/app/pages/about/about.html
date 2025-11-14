@@ -1,0 +1,73 @@
+<section class="hero">
+  <div class="avatar">
+    <img src="assets/me.jpg" alt="Photo" onerror="this.style.display='none'"/>
+  </div>
+  <div class="hero-text">
+    <h1>À propos</h1>
+    <p>Développeur web & data analyst — j’aime transformer des données en décisions actionnables,
+       avec une UX soignée et des perfs mesurées.</p>
+    <div class="cta">
+      <a mat-raised-button color="primary" [href]="links.resume" download>
+        <mat-icon>download</mat-icon> Télécharger mon CV
+      </a>
+      <a mat-stroked-button color="primary" [href]="links.projectRepo" target="_blank" rel="noopener">
+        <mat-icon>code</mat-icon> Repo du projet
+      </a>
+    </div>
+  </div>
+</section>
+
+<mat-card class="section">
+  <mat-card-title>Compétences & Stack</mat-card-title>
+  <mat-card-content>
+    <mat-chip-set class="chips">
+      <mat-chip *ngFor="let s of skills">{{ s }}</mat-chip>
+    </mat-chip-set>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="section">
+  <mat-card-title>Ce que j’apporte</mat-card-title>
+  <mat-card-content>
+    <div class="value-grid">
+      <mat-card class="value-card" *ngFor="let v of value">
+        <mat-card-title><mat-icon>{{v.icon}}</mat-icon> {{ v.title }}</mat-card-title>
+        <mat-card-content>
+          <p>{{ v.text }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="section">
+  <mat-card-title>Parcours</mat-card-title>
+  <mat-card-content>
+    <div class="timeline">
+      <div class="item" *ngFor="let t of timeline">
+        <div class="period">{{ t.period }}</div>
+        <div class="role">{{ t.role }}</div>
+        <ul>
+          <li *ngFor="let it of t.items">{{ it }}</li>
+        </ul>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="section">
+  <mat-card-title>Contact</mat-card-title>
+  <mat-card-content>
+    <div class="links">
+      <a mat-stroked-button color="primary" [href]="links.email">
+        <mat-icon>mail</mat-icon> Email
+      </a>
+      <a mat-stroked-button color="primary" [href]="links.github" target="_blank" rel="noopener">
+        <mat-icon>hub</mat-icon> GitHub
+      </a>
+      <a mat-stroked-button color="primary" [href]="links.linkedin" target="_blank" rel="noopener">
+        <mat-icon>public</mat-icon> LinkedIn
+      </a>
+    </div>
+  </mat-card-content>
+</mat-card>

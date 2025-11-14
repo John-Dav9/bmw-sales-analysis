@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-title style="text-align:center;">Top 10 modèles</mat-card-title>
+  <mat-card-content>
+    <form class="filters" (ngSubmit)="loadTop()">
+      <mat-form-field>
+        <mat-label>Year</mat-label>
+        <input matInput type="number" [(ngModel)]="year" name="year" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Region</mat-label>
+        <input matInput [(ngModel)]="region" name="region" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Actualiser</button>
+    </form>
+
+    <div style="height: 360px" *ngIf="!loading; else loadTpl">
+      <canvas baseChart [type]="'bar'" [data]="data" [options]="options"></canvas>
+    </div>
+    <ng-template #loadTpl>
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

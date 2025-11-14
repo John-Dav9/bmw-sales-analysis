@@ -1,0 +1,55 @@
+<mat-card class="section">
+  <mat-card-title>KPIs</mat-card-title>
+  <mat-card-content class="kpi-container">
+    <div class="kpis" *ngIf="kpi; else loadingTpl">
+      <div class="kpi"><div class="label">Revenue</div><div class="value">{{kpi!.revenue | number:'1.0-0'}} USD</div></div>
+      <div class="kpi"><div class="label">Units</div><div class="value">{{kpi!.units | number}}</div></div>
+      <div class="kpi"><div class="label">Avg Price</div><div class="value">{{kpi!.avgPrice | number:'1.0-0'}} USD</div></div>
+    </div>
+    <ng-template #loadingTpl><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></ng-template>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="section" style="height: 360px;">
+  <mat-card-title>Tendance des ventes (Units)</mat-card-title>
+  <mat-card-content style="height: 300px;">
+    <canvas baseChart [type]="'line'" [data]="trendData" [options]="trendOptions"></canvas>
+  </mat-card-content>
+</mat-card>
+
+<div class="row section">
+  <mat-card style="height: 360px;">
+    <mat-card-title>Répartition des ventes par modèle (Units)</mat-card-title>
+    <mat-card-content style="height: 300px;">
+      <canvas baseChart [type]="'doughnut'" [data]="modelData" [options]="modelOptions"></canvas>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card style="height: 360px;">
+    <mat-card-title>Répartition des ventes par canal (Units)</mat-card-title>
+    <mat-card-content style="height: 300px;">
+      <canvas baseChart [type]="'doughnut'" [data]="channelData" [options]="channelOptions"></canvas>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<mat-card class="section" style="height:360px;">
+  <mat-card-title>Top régions (Units)</mat-card-title>
+  <mat-card-content style="height:300px;">
+    <canvas baseChart [type]="'bar'" [data]="regionsData" [options]="regionsOptions"></canvas>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="section" style="height:360px;">
+  <mat-card-title>Répartition par carburant (stacked)</mat-card-title>
+  <mat-card-content style="height:300px;">
+    <canvas baseChart [type]="'bar'" [data]="fuelData" [options]="fuelOptions"></canvas>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="section" style="height:360px;">
+  <mat-card-title>Prix moyen vs Cylindrée (L)</mat-card-title>
+  <mat-card-content style="height:300px;">
+    <canvas baseChart [type]="'scatter'" [data]="scatterData" [options]="scatterOptions"></canvas>
+  </mat-card-content>
+</mat-card>

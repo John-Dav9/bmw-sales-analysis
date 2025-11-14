@@ -1,0 +1,14 @@
+
+
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+  mat-form-field { width: 200px; }
+}
+.table-wrap { overflow: auto; }
+.pager {
+  display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 10px;
+}

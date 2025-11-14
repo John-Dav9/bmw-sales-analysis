@@ -1,0 +1,67 @@
+.landing {
+  position: relative;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a237e, #283593);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .logo {
+      font-size: 60px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      span {
+        color: #8bc34a;
+      }
+    }
+
+    p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+
+      a[mat-raised-button],
+      a[mat-stroked-button] {
+        min-width: 180px;
+        font-weight: 500;
+        text-transform: none;
+      }
+
+      mat-icon {
+        margin-right: 6px;
+      }
+    }
+  }
+}
