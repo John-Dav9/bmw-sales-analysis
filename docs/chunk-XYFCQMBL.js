@@ -1,0 +1,1 @@
+import"./chunk-4CLCTAJ7.js";var o=[{path:"",loadComponent:()=>import("./chunk-FIPHEUUG.js").then(e=>e.AdminPage),children:[{path:"users",loadComponent:()=>import("./chunk-BANCLSVZ.js").then(e=>e.AdminUsersPage)},{path:"**",redirectTo:"users"}]}];export{o as adminRoutes};
