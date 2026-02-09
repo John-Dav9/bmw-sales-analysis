@@ -17,6 +17,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
 
 import { ApiService } from '../../services/api';
+import { barDataset, CHART_GRID, CHART_TICK } from '../../services/chart-theme';
 
 type Kpi = { revenue: number; units: number; avgPrice: number };
 
@@ -35,6 +36,7 @@ type Kpi = { revenue: number; units: number; avgPrice: number };
 })
 export class Usecases implements OnInit {
   private api = inject(ApiService);
+  private readonly pageBase = 3; // orange dominant for Usecases
 
   /* =========================
    * 1) FILTRES / CONTEXTE
@@ -104,9 +106,13 @@ export class Usecases implements OnInit {
   unitsChart:   ChartData<'bar'> = { labels: ['Units'],          datasets: [] };
   revenueChart: ChartData<'bar'> = { labels: ['Revenue (USD)'], datasets: [] };
   barOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' } },
-    scales:  { y: { beginAtZero: true } }
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: CHART_TICK } } },
+    scales: {
+      x: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID } },
+      y: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID }, beginAtZero: true }
+    }
   };
 
   runScenario() {
@@ -129,15 +135,15 @@ export class Usecases implements OnInit {
     this.unitsChart = {
       labels: ['Units'],
       datasets: [
-        { label: 'Baseline', data: [u0] },
-        { label: 'Scénario', data: [u1] }
+        barDataset('Baseline', [u0], this.pageBase),
+        barDataset('Scénario', [u1], this.pageBase + 1)
       ]
     };
     this.revenueChart = {
       labels: ['Revenue (USD)'],
       datasets: [
-        { label: 'Baseline', data: [rev0] },
-        { label: 'Scénario', data: [rev1] }
+        barDataset('Baseline', [rev0], this.pageBase),
+        barDataset('Scénario', [rev1], this.pageBase + 1)
       ]
     };
   }
@@ -161,9 +167,13 @@ export class Usecases implements OnInit {
 
   mixChart:   ChartData<'bar'> = { labels: [], datasets: [] };
   mixOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' } },
-    scales:  { y: { beginAtZero: true } }
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: CHART_TICK } } },
+    scales: {
+      x: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID } },
+      y: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID }, beginAtZero: true }
+    }
   };
 
   // Top 5 modèles pour les filtres actuels
@@ -240,8 +250,8 @@ export class Usecases implements OnInit {
     this.mixChart = {
       labels: this.mixModels.map(m => m.label),
       datasets: [
-        { label: 'Units Baseline', data: this.mixModels.map(m => m.units) as number[] },
-        { label: 'Units Scénario', data: scenarioUnits as number[] }
+        barDataset('Units Baseline', this.mixModels.map(m => m.units) as number[], this.pageBase),
+        barDataset('Units Scénario', scenarioUnits as number[], this.pageBase + 1)
       ]
     };
   }
@@ -259,9 +269,13 @@ export class Usecases implements OnInit {
 
   regionChart: ChartData<'bar'> = { labels: [], datasets: [] };
   regionOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' } },
-    scales:  { y: { beginAtZero: true } }
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: CHART_TICK } } },
+    scales: {
+      x: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID } },
+      y: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID }, beginAtZero: true }
+    }
   };
 
   // Agrège {region, units, avg_price pondéré} depuis /sales/list
@@ -334,8 +348,8 @@ export class Usecases implements OnInit {
     this.regionChart = {
       labels: this.regionMix.map(r => r.region),
       datasets: [
-        { label: 'Units Baseline', data: baseUnits },
-        { label: 'Units Scénario', data: scenarioUnits }
+        barDataset('Units Baseline', baseUnits, this.pageBase),
+        barDataset('Units Scénario', scenarioUnits, this.pageBase + 1)
       ]
     };
   }

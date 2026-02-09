@@ -11,6 +11,7 @@ import { NgIf } from '@angular/common';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { ApiService } from '../../services/api';
+import { barDataset, CHART_GRID, CHART_TICK } from '../../services/chart-theme';
 
 @Component({
   selector: 'app-insights',
@@ -38,11 +39,16 @@ export class Insights implements OnInit {
 
   data: ChartData<'bar'> = {
     labels: [],
-    datasets: [{ label: 'Units', data: [] }]
+    datasets: [barDataset('Units', [], 1)] // green dominant for Insights
   };
   options: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: CHART_TICK } } },
+    scales: {
+      x: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID } },
+      y: { ticks: { color: CHART_TICK }, grid: { color: CHART_GRID }, beginAtZero: true }
+    }
   };
 
   ngOnInit(): void {
@@ -55,7 +61,7 @@ export class Insights implements OnInit {
       next: (rows: any[]) => {
         const labels = rows.map(r => `${r.make} ${r.model}`);
         const units = rows.map(r => Number(r.units || 0));
-        this.data = { labels, datasets: [{ label: 'Units', data: units }] };
+        this.data = { labels, datasets: [barDataset('Units', units, 1)] };
         this.loading = false;
       },
       error: () => (this.loading = false)
