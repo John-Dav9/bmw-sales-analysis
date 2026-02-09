@@ -13,7 +13,9 @@ async function bootstrap() {
     origin: [
       'http://localhost:4200',
       'https://john-dav9.github.io',
-      'https://john-dav9.github.io/bmw-sales-analysis'
+      'https://john-dav9.github.io/bmw-sales-analysis',
+      'https://bmw-sales-analysis-b36c6.web.app',
+      'https://bmw-sales-analysis-b36c6.firebaseapp.com'
     ],
     credentials: true,               // allow cookies/auth headers if needed
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
