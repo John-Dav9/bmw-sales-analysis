@@ -3,12 +3,16 @@
   justify-content: center;
   align-items: center;
   min-height: 92vh;
-  background: #f8fafc;
+  background: transparent;
 }
 
 .auth-card {
-  width: 380px;
-  padding: 20px;
+  width: 420px;
+  padding: 24px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
 }
 
 form.form {
@@ -23,7 +27,7 @@ form.form {
   font-size: 14px;
 }
 .switch a {
-  color: #1a237e;
+  color: var(--color-primary);
   font-weight: 500;
   text-decoration: none;
 }

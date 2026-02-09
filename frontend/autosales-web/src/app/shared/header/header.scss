@@ -1,16 +1,12 @@
 
 
 
-:root {
-  --tb-bg: #0f172a;
-  --tb-fg: #e5e7eb;
-  --tb-accent: #8BC34A;
-}
-
 .topbar {
-  background: var(--tb-bg);
-  color: var(--tb-fg);
+  background: linear-gradient(90deg, rgba(26, 35, 126, 0.96), rgba(15, 23, 42, 0.96));
+  color: #f5f7fb;
   position: sticky; top: 0; z-index: 10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
 
   .wrap {
     max-width: 1200px; margin: 0 auto; padding: 10px 12px;
@@ -18,27 +14,28 @@
   }
 
   .brand {
-    display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--tb-fg);
+    display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit;
     .logo { font-size: 20px; }
-    .title { font-weight: 700; letter-spacing: .2px; }
+    .title { font-weight: 700; letter-spacing: .3px; font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; }
   }
 
   .nav {
     display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
 
     a {
-      color: var(--tb-fg); text-decoration: none; opacity: .9; padding: 6px 8px; border-radius: 8px;
-      &:hover { background: rgba(255,255,255,.06); opacity: 1; }
-      &.active { color: var(--tb-accent); }
+      color: inherit; text-decoration: none; opacity: .9; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid transparent;
+      &:hover { background: rgba(255,255,255,.08); opacity: 1; border-color: rgba(255,255,255,.12); }
+      &.active { color: var(--color-accent); background: rgba(139, 195, 74, 0.12); }
     }
   }
 
-  .burger { display: none; color: var(--tb-fg); }
+  .burger { display: none; color: inherit; }
 
   @media (max-width: 900px) {
     .wrap { grid-template-columns: auto auto auto; }
     .nav {
-      position: absolute; left: 0; right: 0; top: 56px; background: var(--tb-bg);
+      position: absolute; left: 0; right: 0; top: 56px; background: rgba(15, 23, 42, 0.98);
       display: none; flex-direction: column; padding: 8px 12px; border-top: 1px solid rgba(255,255,255,.08);
       &.open { display: flex; }
     }
