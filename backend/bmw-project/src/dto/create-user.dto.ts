@@ -9,7 +9,7 @@ export class CreateUserDto {
   password!: string;
 
   @IsIn(['admin', 'visitor'])
-  role!: 'admin' | 'visitor';
+  role?: 'admin' | 'visitor';
 
   @IsNotEmpty()
   name!: string;

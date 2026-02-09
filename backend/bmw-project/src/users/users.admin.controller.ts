@@ -20,7 +20,7 @@ async create(@Body() dto: CreateUserDto) {   // ✅ utilise le DTO
     surname: dto.surname,
     email: dto.email,
     password_hash: hash,
-    role: dto.role,
+    role: dto.role ?? 'visitor',
   });
 }
 

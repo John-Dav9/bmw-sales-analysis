@@ -7,6 +7,9 @@ yarn-error.log*
 # Build
 dist/
 build/
+docs/
+frontend/autosales-web/dist/
+backend/bmw-project/dist/
 
 # IDE / éditeurs
 .idea/
@@ -16,3 +19,6 @@ build/
 .DS_Store
 .env
 .env.local
+.firebase/
+firebase-debug.log*
+backend/bmw-project/bmw-sales.db

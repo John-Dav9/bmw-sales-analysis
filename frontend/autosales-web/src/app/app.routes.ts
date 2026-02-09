@@ -28,12 +28,12 @@ export const routes: Routes = [
   { path: 'login', loadComponent: () => import('./pages/login/login').then(m => m.LoginPage) },
   { path: 'register', loadComponent: () => import('./pages/register/register').then(m => m.Register) },
 
-  // Visiteur (auth requis)
-  { path: 'dashboard', canActivate: [authGuardCanActivate], component: Dashboard },
-  { path: 'insights', canActivate: [authGuardCanActivate], component: Insights },
-  { path: 'methodo', canActivate: [authGuardCanActivate], component: Methodo },
-  { path: 'data-story', canActivate: [authGuardCanActivate], component: DataStory },
-  { path: 'use-cases', canActivate: [authGuardCanActivate], component: Usecases },
+  // Public (no login required)
+  { path: 'dashboard', component: Dashboard },
+  { path: 'insights', component: Insights },
+  { path: 'methodo', component: Methodo },
+  { path: 'data-story', component: DataStory },
+  { path: 'use-cases', component: Usecases },
 
   // Admin only
   { path: 'explore', canActivate: [authGuardCanActivate, adminGuardCanActivate], component: Explore },

@@ -31,7 +31,6 @@ export class Register {
   email = '';
   password = '';
   confirmPassword = '';
-  role: 'admin' | 'visitor' = 'visitor';
   loading = false;
 
   async register() {
@@ -47,8 +46,7 @@ export class Register {
           name: this.name,
           surname: this.surname,
           email: this.email,
-          password: this.password,
-          role: this.role
+          password: this.password
         })
       );
 

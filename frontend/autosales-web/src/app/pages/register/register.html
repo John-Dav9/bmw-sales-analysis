@@ -35,14 +35,6 @@
           />
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Rôle</mat-label>
-          <mat-select [(ngModel)]="role" name="role" required>
-            <mat-option value="visitor">Visiteur</mat-option>
-            <mat-option value="admin">Admin</mat-option>
-          </mat-select>
-        </mat-form-field>
-
         <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading">
           {{ loading ? 'Création...' : 'S’inscrire' }}
         </button>
