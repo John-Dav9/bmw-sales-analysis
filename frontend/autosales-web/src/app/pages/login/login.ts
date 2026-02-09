@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatInputModule, MatSnackBarModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
@@ -30,9 +30,13 @@ export class LoginPage {
       next: (res) => {
         this.auth.saveSession(res.access_token, res.user);
         this.snack.open('✅ Bienvenue !');
-        this.router.createUrlTree(['/']);
+        this.router.navigate(['/']);
       },
-      error: () => {},
+      error: (err) => {
+        const msg = err?.error?.message || 'Échec de connexion';
+        this.snack.open(msg, 'Fermer', { duration: 3000 });
+        this.loading = false;
+      },
       complete: () => this.loading = false
     });
   }

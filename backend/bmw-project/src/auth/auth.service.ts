@@ -47,7 +47,8 @@ export class AuthService {
       name: dto.name,
       surname: dto.surname,
       email: dto.email,
-      role: (dto.role as any) ?? 'visitor',
+      // Force public registrations to visitor
+      role: 'visitor' as any,
       // si ton UsersService create() sait hasher quand on lui passe "password"
       // tu peux lui passer dto.password directement
       // sinon : password_hash: await bcrypt.hash(dto.password, 10),

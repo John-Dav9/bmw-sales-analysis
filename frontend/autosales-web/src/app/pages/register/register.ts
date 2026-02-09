@@ -55,8 +55,8 @@ export class Register {
       this.auth.saveSession(resp.access_token, resp.user);
       this.snack.open('Inscription réussie !', 'OK', { duration: 2000 });
 
-      if (resp.user?.role === 'admin') this.router.createUrlTree(['/admin']);
-      else this.router.createUrlTree(['/']);
+      if (resp.user?.role === 'admin') this.router.navigate(['/admin']);
+      else this.router.navigate(['/']);
     } catch (err: any) {
       this.snack.open(err?.error?.message || 'Erreur lors de l’inscription', 'Fermer', { duration: 3000 });
     } finally {
