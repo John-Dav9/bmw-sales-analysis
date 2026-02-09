@@ -6,6 +6,6 @@ export class DimRegion {
   @PrimaryGeneratedColumn({ name: 'region_key' })
   region_key: number;
 
-  @Column({ type: 'nvarchar', length: 100 })
+  @Column({ type: 'varchar', length: 100 })
   region: string;
 }

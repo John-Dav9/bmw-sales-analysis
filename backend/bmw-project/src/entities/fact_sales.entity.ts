@@ -21,10 +21,10 @@ export class FactSales {
   @Column({ type: 'int', nullable: true })
   color_key?: number | null;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   fuel_type?: string;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   transmission?: string;
 
   @Column({
@@ -45,6 +45,6 @@ export class FactSales {
   @Column({ type: 'int', nullable: true, name: 'sales_volume' })
   sales_volume?: number | null;
 
-  @Column({ type: 'nvarchar', length: 50, nullable: true, name: 'sales_classification' })
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'sales_classification' })
   sales_classification?: string | null;
 }

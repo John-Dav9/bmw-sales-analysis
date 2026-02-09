@@ -17,12 +17,12 @@ export class User {
   @Column({ type: 'varchar', length: 20, default: 'visitor' })
   role!: UserRole;
 
-  @Column({type: 'varchar', length: 100, nullable: true})
+  @Column({ type: 'varchar', length: 100, nullable: true })
   name?: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   surname?: string;
 
-  @Column({ type: 'bit', default: () => '(1)' }) // ✅ SQL Server default 1
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 }

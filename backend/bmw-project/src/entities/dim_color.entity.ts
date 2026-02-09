@@ -6,6 +6,6 @@ export class DimColor {
   @PrimaryGeneratedColumn({ name: 'color_key' })
   color_key: number;
 
-  @Column({ type: 'nvarchar', length: 50 })
+  @Column({ type: 'varchar', length: 50 })
   color: string;
 }

@@ -13,13 +13,13 @@ export class FactListings {
   @Column({ type: 'int' })
   model_key: number;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   transmission?: string;
 
   @Column({ type: 'int', nullable: true })
   mileage?: number | null;
 
-  @Column({ type: 'nvarchar', length: 30, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: true })
   fuel_type?: string;
 
   @Column({
@@ -46,6 +46,6 @@ export class FactListings {
   })
   price?: number | null;
 
-  @Column({ type: 'nvarchar', length: 3, nullable: true })
+  @Column({ type: 'varchar', length: 3, nullable: true })
   currency?: string | null;
 }
