@@ -21,7 +21,7 @@ function landingRedirect(): true | UrlTree {
 }
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'landing' },
+  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
 
   // Public
   { path: 'landing', loadComponent: () => import('./pages/landing/landing').then(m => m.Landing), canMatch: [landingRedirect] },

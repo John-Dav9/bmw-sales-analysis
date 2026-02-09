@@ -8,22 +8,16 @@
 
     <!-- 🧭 Navigation -->
     <nav class="nav" [class.open]="menuOpen">
-      <a *ngIf="!auth.isLoggedIn()" mat-stroked-button color="accent" routerLink="/register" (click)="closeMenu()">S’inscrire</a>
-      <a *ngIf="auth.isLoggedIn()" routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
-      <a *ngIf="auth.isLoggedIn()" routerLink="/insights" routerLinkActive="active" (click)="closeMenu()">Insights</a>
-      <a *ngIf="auth.isLoggedIn()" routerLink="/data-story" routerLinkActive="active" (click)="closeMenu()">Data Story</a>
-      <a *ngIf="auth.isLoggedIn()" routerLink="/methodo" routerLinkActive="active" (click)="closeMenu()">Méthodo</a>
-      <a *ngIf="auth.isLoggedIn()" routerLink="/use-cases" routerLinkActive="active" (click)="closeMenu()">Cas d’usage</a>
+      <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a>
+      <a routerLink="/insights" routerLinkActive="active" (click)="closeMenu()">Insights</a>
+      <a routerLink="/data-story" routerLinkActive="active" (click)="closeMenu()">Data Story</a>
+      <a routerLink="/methodo" routerLinkActive="active" (click)="closeMenu()">Méthodo</a>
+      <a routerLink="/use-cases" routerLinkActive="active" (click)="closeMenu()">Cas d’usage</a>
 
       <!-- 👑 Lien Admin visible seulement si admin -->
       <a *ngIf="auth.isAdmin()" routerLink="/explore" routerLinkActive="active" (click)="closeMenu()">Explore</a>
       <a *ngIf="auth.isAdmin()" routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
-      <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
-
-      <!-- 🔐 Auth Buttons -->
-      <ng-container *ngIf="!auth.isLoggedIn(); else loggedIn">
-        <a mat-stroked-button color="accent" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a>
-      </ng-container>
+      <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
 
       <ng-template #loggedIn>
         <button mat-stroked-button color="warn" (click)="logout()">

@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req, UseGuards, ForbiddenException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles, RolesGuard } from '../auth/roles.guard';
 import * as bcrypt from 'bcryptjs';
@@ -10,7 +11,15 @@ import { UpdateUserDto } from 'src/dto/update-user.dto';
 @Roles('admin')
 @Controller('admin/users') // => /admin/users
 export class UsersAdminController {
-  constructor(private users: UsersService) {}
+  constructor(
+    private users: UsersService,
+    private config: ConfigService,
+  ) {}
+
+  private getSuperAdminEmail() {
+    const email = this.config.get<string>('SUPER_ADMIN_EMAIL') || '';
+    return email.trim().toLowerCase();
+  }
 
 @Post()
 async create(@Body() dto: CreateUserDto) {   // ✅ utilise le DTO
@@ -48,16 +57,35 @@ async create(@Body() dto: CreateUserDto) {   // ✅ utilise le DTO
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Req() req: any, @Param('id', ParseIntPipe) id: number) {
+    const requesterId = req?.user?.sub;
+    if (requesterId && Number(requesterId) === Number(id)) {
+      throw new ForbiddenException('You cannot delete your own account');
+    }
+    const target = await this.users.findOne(id);
+    const superEmail = this.getSuperAdminEmail();
+    if (target?.email && superEmail && target.email.toLowerCase() === superEmail) {
+      throw new ForbiddenException('Super admin cannot be deleted');
+    }
     await this.users.remove(id);
     return { ok: true };
   }
 
   @Patch(':id/active')
   async setActive(
+    @Req() req: any,
     @Param('id', ParseIntPipe) id: number,
     @Body() body: { is_active: boolean }
   ) {
+    const target = await this.users.findOne(id);
+    const superEmail = this.getSuperAdminEmail();
+    if (target?.email && superEmail && target.email.toLowerCase() === superEmail) {
+      throw new ForbiddenException('Super admin cannot be disabled');
+    }
+    const requesterId = req?.user?.sub;
+    if (requesterId && Number(requesterId) === Number(id) && body?.is_active === false) {
+      throw new ForbiddenException('You cannot disable your own account');
+    }
     const updated = await this.users.setActive(id, !!body.is_active);
     const { password_hash, ...safe } = updated as any;
     return safe;

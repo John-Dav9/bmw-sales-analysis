@@ -20,15 +20,13 @@ export const authGuardCanActivate: CanActivateFn = () => {
 export const adminGuardCanMatch: CanMatchFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  return (auth.isLoggedIn() && auth.isAdmin())
-    ? true
-    : router.createUrlTree(['/']);
+  if (!auth.isLoggedIn()) return router.createUrlTree(['/login']);
+  return auth.isAdmin() ? true : router.createUrlTree(['/']);
 };
 
 export const adminGuardCanActivate: CanActivateFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  return (auth.isLoggedIn() && auth.isAdmin())
-    ? true
-    : router.createUrlTree(['/']);
+  if (!auth.isLoggedIn()) return router.createUrlTree(['/login']);
+  return auth.isAdmin() ? true : router.createUrlTree(['/']);
 };
