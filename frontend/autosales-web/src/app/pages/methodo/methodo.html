@@ -23,12 +23,14 @@
 <mat-card class="section">
   <mat-card-title>Pipeline projet</mat-card-title>
   <mat-card-content>
-    <mat-horizontal-stepper>
-      <mat-step *ngFor="let s of steps; let i = index" [completed]="true">
-        <ng-template matStepLabel>{{i+1}}. {{s.title}}</ng-template>
-        <p>{{s.desc}}</p>
-      </mat-step>
-    </mat-horizontal-stepper>
+    <div class="stepper-shell">
+      <mat-horizontal-stepper>
+        <mat-step *ngFor="let s of steps; let i = index" [completed]="true">
+          <ng-template matStepLabel>{{i+1}}. {{s.title}}</ng-template>
+          <p>{{s.desc}}</p>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
   </mat-card-content>
 </mat-card>
 
