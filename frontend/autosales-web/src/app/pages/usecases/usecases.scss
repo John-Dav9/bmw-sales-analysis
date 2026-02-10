@@ -323,10 +323,26 @@ input[matInput] {
   .charts { grid-template-columns: 1fr; }
   .mix-grid { grid-template-columns: 1fr; }
   .region-grid { grid-template-columns: 1fr; }
+  .filters { grid-template-columns: 1fr; }
+  .actions { justify-content: flex-start; }
 }
 
 @media (max-width: 640px) {
   mat-card { padding: 6px; }
   .kpis { grid-template-columns: 1fr; }
   .delta { flex-direction: column; }
+  .filters button,
+  .actions button {
+    width: 100%;
+  }
+  .section-subtitle { text-align: left; }
+  mat-card-title { text-align: left; }
+  .charts .sub { height: 240px !important; }
+}
+
+@media (max-width: 420px) {
+  .hero h1 { font-size: 1.2rem; }
+  .hero { padding: 14px; }
+  .control .row { flex-direction: column; align-items: stretch; }
+  .control .row input[matInput] { width: 100%; }
 }
