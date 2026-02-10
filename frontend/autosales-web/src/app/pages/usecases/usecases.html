@@ -11,7 +11,7 @@
   <p class="section-subtitle">Sélectionne un périmètre pour établir une baseline réaliste.</p>
   <mat-card-content>
     <div class="filters">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Année</mat-label>
         <mat-select [(ngModel)]="year">
           <mat-option [value]="undefined">Toutes</mat-option>
@@ -19,7 +19,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Région</mat-label>
         <mat-select [(ngModel)]="region">
           <mat-option [value]="undefined">Toutes</mat-option>
@@ -27,7 +27,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Modèle</mat-label>
         <mat-select [(ngModel)]="model">
           <mat-option [value]="undefined">Tous</mat-option>
@@ -133,7 +133,7 @@
     </p>
 
     <div class="mix-grid">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Modèle cible</mat-label>
         <mat-select [(ngModel)]="mixTarget" (selectionChange)="runMixScenario()">
           <mat-option *ngFor="let m of mixModels" [value]="m.label">{{ m.label }}</mat-option>
@@ -202,14 +202,14 @@
     </p>
 
     <div class="region-grid" *ngIf="regionMix.length; else regionEmpty">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Région source</mat-label>
         <mat-select [(ngModel)]="regionSource" (selectionChange)="runRegionMixScenario()">
           <mat-option *ngFor="let r of regionMix" [value]="r.region">{{ r.region }}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Région cible</mat-label>
         <mat-select [(ngModel)]="regionTarget" (selectionChange)="runRegionMixScenario()">
           <mat-option *ngFor="let r of regionMix" [value]="r.region">{{ r.region }}</mat-option>

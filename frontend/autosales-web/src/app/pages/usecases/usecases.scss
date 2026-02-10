@@ -260,6 +260,10 @@ mat-card-title {
   background: rgba(15,23,42,0.85) !important;
 }
 
+::ng-deep .mdc-text-field--outlined {
+  background: rgba(15,23,42,0.85) !important;
+}
+
 
 ::ng-deep .mat-mdc-form-field-infix {
   color: #ffffff;
