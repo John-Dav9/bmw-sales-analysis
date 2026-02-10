@@ -19,6 +19,10 @@ export class UsersService {
 
   // --- Create (hash du mot de passe ici) ---
   async create(data: Partial<User>) {
+    let passwordHash = data.password_hash;
+    if (!passwordHash && (data as any).password) {
+      passwordHash = await bcrypt.hash((data as any).password, 10);
+    }
     const user = this.repo.create({
       email: data.email!,
       name: data.name!,
@@ -26,10 +30,7 @@ export class UsersService {
       role: (data.role as any) ?? 'visitor',
       is_active: data.is_active ?? true,
       // si password présent → hash
-      password_hash: data.password_hash
-        ?? (data as any).password
-          ? await bcrypt.hash((data as any).password, 10)
-          : undefined,
+      password_hash: passwordHash,
     });
     return this.repo.save(user);
   }

@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 92vh;
+  padding: 24px 12px;
   background: transparent;
 }
 
@@ -15,10 +16,22 @@
   box-shadow: var(--shadow-soft);
 }
 
+mat-card-title {
+  text-align: center;
+  font-weight: 600;
+  font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
 form.form {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+button[mat-raised-button] {
+  width: 100%;
 }
 
 .switch {

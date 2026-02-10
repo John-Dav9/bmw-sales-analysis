@@ -8,17 +8,71 @@
 }
 
 .kpi {
-  background: var(--color-card);
-  border-radius: 16px;
-  padding: 16px 18px;
+  --kpi-accent: var(--color-primary);
+  background: linear-gradient(135deg, rgba(26,35,126,0.08), rgba(255,255,255,0.6)), var(--color-card);
+  border-radius: 18px;
+  padding: 18px 20px;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-soft);
   display: grid;
-  gap: 6px;
+  gap: 8px;
   text-align: left;
-  .label { opacity: 0.7; font-size: 12px; letter-spacing: .3px; text-transform: uppercase; }
-  .value { font-size: 26px; font-weight: 600; color: var(--color-primary); }
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: auto -40% -60% auto;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(closest-side, rgba(139,195,74,0.18), transparent 70%);
+    opacity: 0.6;
+    z-index: 0;
+  }
+
+  .kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .label {
+    opacity: 0.7;
+    font-size: 12px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(26,35,126,0.2);
+    color: var(--kpi-accent);
+    background: rgba(26,35,126,0.08);
+  }
+
+  .value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--kpi-accent);
+    z-index: 1;
+  }
+
+  .meta {
+    font-size: 12px;
+    color: var(--color-muted);
+    z-index: 1;
+  }
 }
+
+.kpi-revenue { --kpi-accent: var(--color-primary); }
+.kpi-units   { --kpi-accent: #0EA5E9; }
+.kpi-avg     { --kpi-accent: var(--color-accent); }
 
 .chart-container {
   margin-top: 20px;
@@ -35,7 +89,7 @@ mat-card-title {
   text-align: left;
   font-weight: 600;
   font-size: 1.05rem;
-  color: var(--color-primary);
+  color: #ffffff;
   margin-bottom: 10px;
   letter-spacing: 0.3px;
 }
@@ -55,12 +109,61 @@ mat-card:hover {
   box-shadow: var(--shadow);
 }
 
+.chart-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(360px 180px at 15% -10%, rgba(14,165,233,0.18), transparent 70%),
+    radial-gradient(320px 160px at 95% 0%, rgba(139,92,246,0.18), transparent 70%),
+    linear-gradient(180deg, rgba(15,23,42,0.98), rgba(12,18,30,0.98));
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  padding: 16px 18px;
+  border-radius: 18px;
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(14,165,233,0.9), rgba(34,197,94,0.9), rgba(236,72,153,0.9));
+  opacity: 0.9;
+}
+
+.chart-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -30% auto;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(closest-side, rgba(139,195,74,0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.chart-card mat-card-title.chart-title {
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.2px;
+}
+
+.chart-card .chart-content {
+  padding-top: 8px;
+}
+
 // Harmoniser les zones de graphiques
 mat-card-content {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 320px;
+}
+
+.chart-card mat-card-content {
+  align-items: stretch;
 }
 
 .section {

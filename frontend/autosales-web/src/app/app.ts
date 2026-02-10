@@ -23,7 +23,7 @@ import { GlobalLoaderComponent } from './core/loader/global-loader.component';
   `,
   styles: [`
     .app-shell { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; }
-    .content   { background: var(--color-bg, #F5F7FA); }
+    .content   { background: var(--color-bg, #F5F7FA); padding: 24px 16px 48px; }
   `]
 })
 export class App {}

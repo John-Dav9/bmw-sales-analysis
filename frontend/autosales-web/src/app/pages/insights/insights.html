@@ -1,25 +1,45 @@
-<mat-card>
-  <mat-card-title style="text-align:center;">Top 10 modèles</mat-card-title>
-  <mat-card-content>
+<section class="insights-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Insights</p>
+      <h1>Top 10 modèles</h1>
+      <p class="subtitle">Classement des modèles BMW par volume, filtrable par année et région.</p>
+    </div>
+    <button mat-stroked-button color="primary" class="ghost-action" (click)="loadTop()">
+      Actualiser
+    </button>
+  </header>
+
+  <div class="filters-card">
     <form class="filters" (ngSubmit)="loadTop()">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Year</mat-label>
         <input matInput type="number" [(ngModel)]="year" name="year" />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Region</mat-label>
         <input matInput [(ngModel)]="region" name="region" />
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">Actualiser</button>
+      <button mat-raised-button color="primary" type="submit">Appliquer</button>
     </form>
-
-    <div style="height: 360px" *ngIf="!loading; else loadTpl">
-      <canvas baseChart [type]="'bar'" [data]="data" [options]="options"></canvas>
+    <div class="summary-chips">
+      <mat-chip-set>
+        <mat-chip class="chip-strong">{{ summaryChip }}</mat-chip>
+      </mat-chip-set>
     </div>
-    <ng-template #loadTpl>
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    </ng-template>
-  </mat-card-content>
-</mat-card>
+  </div>
+
+  <mat-card class="chart-card">
+    <mat-card-title>Top 10 modèles</mat-card-title>
+    <mat-card-content>
+      <div class="chart-wrap" *ngIf="!loading; else loadTpl">
+        <canvas baseChart [type]="'bar'" [data]="data" [options]="options"></canvas>
+      </div>
+      <ng-template #loadTpl>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</section>

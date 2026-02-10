@@ -14,12 +14,22 @@
 <mat-card class="section">
   <mat-card-title>Résumé exécutif</mat-card-title>
   <mat-card-content>
-    <div class="chips" *ngIf="kpi">
-      <mat-chip-set>
-        <mat-chip><mat-icon>attach_money</mat-icon> <strong>{{kpi.revenue | number:'1.0-0'}}</strong> USD</mat-chip>
-        <mat-chip><mat-icon>directions_car</mat-icon> <strong>{{kpi.units | number}}</strong> unités</mat-chip>
-        <mat-chip><mat-icon>trending_up</mat-icon> Prix moyen <strong>{{kpi.avgPrice | number:'1.0-0'}}</strong> USD</mat-chip>
-      </mat-chip-set>
+    <div class="kpi-cards" *ngIf="kpi">
+      <div class="kpi-card kpi-revenue">
+        <div class="kpi-label"><mat-icon>attach_money</mat-icon> Revenu total</div>
+        <div class="kpi-value">{{kpi.revenue | number:'1.0-0'}} USD</div>
+        <div class="kpi-meta">Impact direct prix × volume</div>
+      </div>
+      <div class="kpi-card kpi-units">
+        <div class="kpi-label"><mat-icon>directions_car</mat-icon> Units</div>
+        <div class="kpi-value">{{kpi.units | number}} unités</div>
+        <div class="kpi-meta">Volume cumulé de ventes</div>
+      </div>
+      <div class="kpi-card kpi-avg">
+        <div class="kpi-label"><mat-icon>trending_up</mat-icon> Prix moyen</div>
+        <div class="kpi-value">{{kpi.avgPrice | number:'1.0-0'}} USD</div>
+        <div class="kpi-meta">Moyenne pondérée</div>
+      </div>
     </div>
 
     <div class="summary-grid" *ngIf="topModels.length">

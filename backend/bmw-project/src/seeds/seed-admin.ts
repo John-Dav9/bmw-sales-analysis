@@ -9,14 +9,14 @@ async function run() {
   const users = app.get(UsersService);
 
   const email = 'tchomguijohn@gmail.com';
-  const passwordHash = await bcrypt.hash('admin123', 10);
+  const password = 'admin123';
 
   // Ajoute name et surname pour éviter l’erreur de contrainte NOT NULL
   const name = 'john';
   const surname = 'TCHOMGUI';
 
   // Assure la création de l’admin si inexistant
-  const admin = await users.ensureAdmin(email, passwordHash, name, surname);
+  const admin = await users.ensureAdmin(email, password, name, surname);
 
   console.log('✅ Admin prêt :', admin.email, '(mdp: admin123)');
   await app.close();

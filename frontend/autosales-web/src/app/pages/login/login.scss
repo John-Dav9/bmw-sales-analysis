@@ -1,9 +1,50 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 92vh;
+  padding: 24px 12px;
+  background: transparent;
+}
+
 .login-card {
-  max-width: 420px;
-  margin: 40px auto;
-  padding: 16px;
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+  width: 420px;
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(12,18,30,0.98));
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
   box-shadow: var(--shadow-soft);
+}
+
+mat-card-title {
+  text-align: center;
+  font-weight: 600;
+  font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+form.form {
+  display: grid;
+  gap: 14px;
+}
+
+button[mat-raised-button] {
+  width: 100%;
+}
+
+::ng-deep .login-card .mat-mdc-text-field-wrapper {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+}
+
+::ng-deep .login-card .mdc-notched-outline__leading,
+::ng-deep .login-card .mdc-notched-outline__trailing,
+::ng-deep .login-card .mdc-notched-outline__notch {
+  border-color: rgba(255,255,255,0.18) !important;
+}
+
+::ng-deep .login-card .mat-mdc-floating-label,
+::ng-deep .login-card input {
+  color: #ffffff;
 }

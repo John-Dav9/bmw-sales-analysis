@@ -36,6 +36,7 @@
     "@nestjs/core": "^11.1.7",
     "bcryptjs": "^3.0.2",
     "chart.js": "^4.5.1",
+    "firebase": "^12.8.0",
     "ng2-charts": "^5.0.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "~7.8.0",

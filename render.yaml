@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: bmw-sales-api
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd backend/bmw-project && npm install && npm run build
+    startCommand: cd backend/bmw-project && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_NAME
+        value: bmw-sales.db
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+    healthCheckPath: /
+    autoDeploy: true
