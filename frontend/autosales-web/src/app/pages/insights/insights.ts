@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { NgIf } from '@angular/common';
 
 import { ChartConfiguration, ChartData } from 'chart.js';
@@ -23,6 +24,7 @@ import { barDataset, CHART_GRID, CHART_TICK } from '../../services/chart-theme';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatChipsModule,
     MatProgressSpinnerModule,
     NgChartsModule
   ],
@@ -53,6 +55,12 @@ export class Insights implements OnInit {
 
   ngOnInit(): void {
     this.loadTop();
+  }
+
+  get summaryChip(): string {
+    const year = this.year ? String(this.year) : 'All years';
+    const region = this.region?.trim() ? this.region : 'All regions';
+    return `Top 10 • ${year} • ${region}`;
   }
 
   loadTop() {
